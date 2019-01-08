@@ -12,10 +12,12 @@ class App extends Component {
       max: 100,
       enableTooltip: false,
       hoveredValue: 0,
-      currHandlePos: 0
+      currHandlePos: 0,
+      coveredTrackWidth: 0
     };
     // Refs
     this.sliderHandleRef = React.createRef();
+    this.coveredTrackRef = React.createRef();
 
     // Events
     this.showValueTooltip = this.showValueTooltip.bind(this);
@@ -23,6 +25,7 @@ class App extends Component {
     this.setHandlePos = this.setHandlePos.bind(this);
     this.onTrackClick = this.onTrackClick.bind(this);
     this.onHandleDrag = this.onHandleDrag.bind(this);
+    this.setCoveredTrackWidth = this.setCoveredTrackWidth.bind(this);
 
     // Helpers
     this.findHandleWidth = this.findHandleWidth.bind(this);
@@ -43,10 +46,16 @@ class App extends Component {
     this.setState({currHandlePos: newPos});
   }
 
+  setCoveredTrackWidth(handlePos) {
+    const coveredTrackEvent = this.coveredTrackRef.current;
+    this.setState({coveredTrackWidth: Math.abs(handlePos - coveredTrackEvent.offsetLeft)});
+  }
+
   onTrackClick(event) {
     let newPos = event.clientX - event.target.offsetLeft;
     newPos = newPos - (this.findHandleWidth() / 2);
     this.setHandlePos(newPos);
+    this.setCoveredTrackWidth(newPos);
   }
 
   onHandleDrag(event) {
@@ -71,7 +80,7 @@ class App extends Component {
       <div className="App">
         <div id="slider-container">
           <div id="slider-track" onMouseMove={this.showValueTooltip} onClick={this.onTrackClick}></div>
-          <div id="slider-track-covered"></div>
+          <div id="slider-track-covered" style={{width: this.state.coveredTrackWidth}} ref={this.coveredTrackRef}></div>
           <div id="slider-handle"
             draggable="true"
             style={{left: this.state.currHandlePos}}
