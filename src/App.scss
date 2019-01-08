@@ -3,11 +3,20 @@ $sl: 'slider';
 #slider-container {
   position: relative;
   
-  #slider-track {
+  #slider-track, #slider-track-ghost {
     position: absolute;
     width: 50em;
     height: 1em;
+  }
+
+  #slider-track {
+    background-color: transparent;
+    z-index: 3;
+  }
+
+  #slider-track-ghost {
     background-color: red;
+    z-index: 0;
   }
 
   #slider-track-covered {
@@ -22,6 +31,7 @@ $sl: 'slider';
     background-color: yellow;
     height: 1em;
     width: 1em;
+    z-index: 2;
   }
 
   p {

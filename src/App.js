@@ -79,6 +79,7 @@ class App extends Component {
     return (
       <div className="App">
         <div id="slider-container">
+          <div id="slider-track-ghost"></div>
           <div id="slider-track" onMouseMove={this.showValueTooltip} onClick={this.onTrackClick}></div>
           <div id="slider-track-covered" style={{width: this.state.coveredTrackWidth}} ref={this.coveredTrackRef}></div>
           <div id="slider-handle"
