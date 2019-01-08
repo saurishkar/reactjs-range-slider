@@ -45,7 +45,10 @@ class App extends Component {
         <div id="slider-container">
         <div id="slider-track" onMouseMove={this.showValueTooltip} onClick={this.setHandlePos}></div>
         <div id="slider-track-covered"></div>
-        <div id="slider-handle" style={{left: this.state.currHandlePos}} ref={this.sliderHandleRef}></div>
+        <div id="slider-handle"
+        style={{left: this.state.currHandlePos}}
+        ref={this.sliderHandleRef}
+        ></div>
         <p>{this.state.hoveredValue}</p>
         </div>
       </div>
