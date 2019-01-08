@@ -1,0 +1,31 @@
+$sl: 'slider';
+
+#slider-container {
+  position: relative;
+  
+  #slider-track {
+    position: absolute;
+    width: 50em;
+    height: 1em;
+    background-color: red;
+  }
+
+  #slider-track-covered {
+    position: absolute;
+    background-color: green;
+    width: 10em;
+    height: 1em;
+  }
+
+  #slider-handle {
+    position: absolute;
+    background-color: yellow;
+    height: 1em;
+    width: 1em;
+  }
+
+  p {
+    position: relative;
+    top: 2em;
+  }
+}

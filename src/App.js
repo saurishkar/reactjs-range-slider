@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
-import './App.css';
+import './App.scss';
 
 class App extends Component {
 
@@ -11,10 +11,13 @@ class App extends Component {
       min: 0,
       max: 100,
       enableTooltip: false,
-      hoveredValue: 0
+      hoveredValue: 0,
+      currHandlePos: 0
     }
+    this.sliderHandleRef = React.createRef();
     this.showValueTooltip = this.showValueTooltip.bind(this);
     this.onValuechange = this.onValuechange.bind(this);
+    this.setHandlePos = this.setHandlePos.bind(this);
   }
 
   onValuechange(event) {
@@ -23,28 +26,28 @@ class App extends Component {
 
   showValueTooltip(event) {
     const val = (((event.clientX - event.target.offsetLeft)/event.target.offsetWidth) * this.state.max).toFixed(0);
+    console.log(val)
     this.setState({hoveredValue: val})
+  }
+
+  setHandlePos(event) {
+    let newPos = event.clientX - event.target.offsetLeft;
+    const sliderHandleEvent = this.sliderHandleRef.current;
+    if(sliderHandleEvent && sliderHandleEvent.clientWidth) {
+      newPos = newPos - (sliderHandleEvent.clientWidth / 2);
+    }
+    this.setState({currHandlePos: newPos})
   }
 
   render() {
     return (
       <div className="App">
         <div id="slider-container">
-        <div className="slider-track"></div>
-        <div className="slider-track-active"></div>
-        <div className="slider-handle"></div>
-        <input
-        id="slider"
-        type="range" step="1"
-        min={this.state.min} max={this.state.max}
-        value={this.state.value}
-        onChange={this.onValuechange}
-        onMouseMove={this.showValueTooltip}
-        onMouseEnter={() => this.setState({enableTooltip: true})}
-        onMouseLeave={() => this.setState({enableTooltip: false, hoveredValue: 0})} />
-        {this.state.enableTooltip && <span id="slider-tooltip">{this.state.hoveredValue}</span>}
+        <div id="slider-track" onMouseMove={this.showValueTooltip} onClick={this.setHandlePos}></div>
+        <div id="slider-track-covered"></div>
+        <div id="slider-handle" style={{left: this.state.currHandlePos}} ref={this.sliderHandleRef}></div>
+        <p>{this.state.hoveredValue}</p>
         </div>
-        {`Value is: ${this.state.value}`}
       </div>
     );
   }
